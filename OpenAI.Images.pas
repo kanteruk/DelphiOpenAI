@@ -395,18 +395,26 @@ end;
 
 constructor TImageEditParams.Create;
 begin
-  inherited Create(true);
+  inherited Create(True);
 end;
 
 function TImageEditParams.Image(const Stream: TStream; const FileName: TFileName): TImageEditParams;
 begin
+  {$IF CompilerVersion <= 35}
   AddStream('image', Stream, FileName);
+  {$ELSE}
+  AddStream('image', Stream, False, FileName);
+  {$ENDIF}
   Result := Self;
 end;
 
 function TImageEditParams.Mask(const Stream: TStream; const FileName: TFileName): TImageEditParams;
 begin
+  {$IF CompilerVersion <= 35}
   AddStream('mask', Stream, FileName);
+  {$ELSE}
+  AddStream('mask', Stream, False, FileName);
+  {$ENDIF}
   Result := Self;
 end;
 
@@ -479,7 +487,11 @@ end;
 
 function TImageVariationParams.Image(const Stream: TStream; const FileName: TFileName): TImageVariationParams;
 begin
+  {$IF CompilerVersion <= 35}
   AddStream('image', Stream, FileName);
+  {$ELSE}
+  AddStream('image', Stream, False, FileName);
+  {$ENDIF}
   Result := Self;
 end;
 
